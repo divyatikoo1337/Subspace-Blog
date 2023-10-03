@@ -1,5 +1,7 @@
 import 'package:blog/models/Blog.dart';
+import 'package:blog/provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BlogItem extends StatelessWidget {
   const BlogItem({super.key, required this.blog});
@@ -8,6 +10,8 @@ class BlogItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<FavoriteProvider>(context);
+    const icon = Icon(Icons.favorite_border);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -33,15 +37,28 @@ class BlogItem extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                blog.heading,
-                style: TextStyle(fontSize: 30),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+            Row(
+              children: [
+                Container(
+                  width: 310,
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    blog.heading,
+                    style: TextStyle(fontSize: 30),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    provider.toggleFavorites(blog);
+                  },
+                  icon: provider.isExist(blog)
+                      ? Icon(Icons.favorite)
+                      : Icon(Icons.favorite_border),
+                ),
+              ],
+            )
           ],
         ),
       ),

@@ -1,5 +1,7 @@
+import 'package:blog/provider/favorite_provider.dart';
 import 'package:blog/screens/blog_Screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,15 +13,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData().copyWith(
-        useMaterial3: true,
-        backgroundColor: const Color.fromRGBO(219, 214, 238, 1),
-        primaryColor: Color.fromRGBO(52, 35, 118, 1),
-        accentColor: const Color.fromRGBO(183, 173, 221, 1),
-      ),
-      // home: ComplaintsScreen(),
-      home: BlogScreen(),
+    return ChangeNotifierProvider(
+        create: (context) => FavoriteProvider(),
+        child: MaterialApp(
+          theme: ThemeData().copyWith(
+            useMaterial3: true,
+            primaryColor: Color.fromARGB(255, 9, 8, 40),
+            backgroundColor: Color.fromRGBO(230, 227, 245, 1),
+            accentColor: Color.fromARGB(124, 9, 8, 40),
+          ),
+          home: BlogScreen(),
+        )
     );
   }
 }

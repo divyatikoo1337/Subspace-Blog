@@ -1,7 +1,9 @@
 import 'package:blog/models/Blog.dart';
+import 'package:blog/provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 class BlogDetailsScreen extends StatelessWidget {
   BlogDetailsScreen({super.key, required this.blog, required this.index});
@@ -11,9 +13,22 @@ class BlogDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<FavoriteProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).backgroundColor,
         title: Text('Story ${index + 1}'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              provider.toggleFavorites(blog);
+            },
+            icon: provider.isExist(blog)
+                ? Icon(Icons.favorite)
+                : Icon(Icons.favorite_border),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(

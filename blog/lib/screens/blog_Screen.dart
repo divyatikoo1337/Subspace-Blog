@@ -1,6 +1,8 @@
 import 'package:blog/components/blog_item.dart';
 import 'package:blog/models/Blog.dart';
 import 'package:blog/screens/blog_details_screen.dart';
+import 'package:blog/screens/error_screen.dart';
+import 'package:blog/screens/favorite_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -58,6 +60,7 @@ class _BlogScreenState extends State<BlogScreen> {
     } catch (e) {
       // Handle any errors that occurred during the request
       print('Error: $e');
+      ErrorPage(error: e);
     }
   }
 
@@ -66,10 +69,31 @@ class _BlogScreenState extends State<BlogScreen> {
     print(blogs);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Blogs"),
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(
+          "Sub-Space Blogs",
+          style: TextStyle(color: Theme.of(context).backgroundColor),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.favorite,
+              color: Colors.red,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FavoriteScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
+            color: Theme.of(context).primaryColor,
             height: 700,
             child: ListView.builder(
               itemCount: blogs.length,
